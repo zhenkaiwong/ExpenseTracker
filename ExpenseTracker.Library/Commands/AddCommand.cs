@@ -3,9 +3,9 @@ using ExpenseTracker.Library.Utils;
 
 namespace ExpenseTracker.Library.Commands;
 
-public class AddCommand : ICommand
+public class AddCommand : BaseCommand
 {
-    public bool CanExecute(UserInput userInput)
+    protected override bool CanExecute(UserInput userInput)
     {
         try
         {
@@ -21,7 +21,7 @@ public class AddCommand : ICommand
         }
     }
 
-    public void Execute(UserInput userInput)
+    protected override void DoExecute(UserInput userInput)
     {
         string? description = userInput.Description;
         int amount = userInput.Amount;

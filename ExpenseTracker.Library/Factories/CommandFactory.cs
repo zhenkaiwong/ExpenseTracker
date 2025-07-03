@@ -2,9 +2,9 @@ using ExpenseTracker.Library.Commands;
 
 namespace ExpenseTracker.Library.Factories;
 
-public class CommandFactory : IFactory<string, ICommand>
+public class CommandFactory : IFactory<string, BaseCommand>
 {
-    private Dictionary<string, ICommand> _commandEntries;
+    private Dictionary<string, BaseCommand> _commandEntries;
     public CommandFactory()
     {
         _commandEntries = new();
@@ -12,7 +12,7 @@ public class CommandFactory : IFactory<string, ICommand>
         _commandEntries.Add(Constants.Commands.ADD_COMMAND, new AddCommand());
     }
 
-    public ICommand createInstance(string key)
+    public BaseCommand createInstance(string key)
     {
         if (!_commandEntries.ContainsKey(key))
         {
