@@ -12,7 +12,12 @@ public class CommandFactory : IFactory<string, BaseCommand>
         _commandEntries.Add(Constants.Commands.ADD_COMMAND, new AddCommand());
     }
 
-    public BaseCommand createInstance(string key)
+    public bool ContainsEntry(string value)
+    {
+        return _commandEntries.ContainsKey(value);
+    }
+
+    public BaseCommand CreateInstance(string key)
     {
         if (!_commandEntries.ContainsKey(key))
         {

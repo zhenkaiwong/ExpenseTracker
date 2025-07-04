@@ -2,5 +2,6 @@ namespace ExpenseTracker.Library.Factories;
 
 public interface IFactory<TValue, TInstance>
 {
-    TInstance createInstance(string value);
+    TInstance CreateInstance(TValue value);
+    bool ContainsEntry(TValue value);
 }
