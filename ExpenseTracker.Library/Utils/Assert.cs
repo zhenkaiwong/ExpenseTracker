@@ -1,3 +1,6 @@
+using ExpenseTracker.Library.Models;
+using ExpenseTracker.Library.Validators;
+
 namespace ExpenseTracker.Library.Utils;
 
 public class Assert
@@ -15,6 +18,16 @@ public class Assert
         if (value is null)
         {
             throw new ArgumentException("String shouldn't be null");
+        }
+    }
+
+    public static void IsProgramArgsValid(string[] args)
+    {
+        ProgramArgsValidator validator = new();
+        ValidationResult result = validator.Validate(args);
+        if (!result.Success)
+        {
+            throw new ArgumentException($"Invalid program args. Message: {result.Error}");
         }
     }
 }

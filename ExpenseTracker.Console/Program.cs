@@ -9,9 +9,10 @@
 // and whether or not the user provided the necessary input for the command
 
 
+using ExpenseTracker.Library.Models;
 using ExpenseTracker.Library.Utils;
+using ExpenseTracker.Library.Validators;
 
-for (int i = 0; i < args.Length; i++)
-{
-    Log.Info($"{i}. {args[i]}");
-}
+Assert.IsProgramArgsValid(args);
+
+string command = args[0];
