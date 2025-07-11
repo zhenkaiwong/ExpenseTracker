@@ -30,4 +30,18 @@ public class Assert
             throw new ArgumentException($"Invalid program args. Message: {result.Error}");
         }
     }
+
+    public static void IsParameterValid(string parameter)
+    {
+        switch (parameter)
+        {
+            case Constants.Parameters.AMOUNT:
+            case Constants.Parameters.MONTH:
+            case Constants.Parameters.DESCRIPTION:
+            case Constants.Parameters.ID:
+                return;
+            default:
+                throw new ArgumentException($"Invalid parameter: ${parameter}");
+        }
+    }
 }
