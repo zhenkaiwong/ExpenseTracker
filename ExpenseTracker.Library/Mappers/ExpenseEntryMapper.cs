@@ -1,3 +1,4 @@
+using ExpenseTracker.Library.Extensions;
 using ExpenseTracker.Library.Models;
 using ExpenseTracker.Library.Utils;
 
@@ -43,6 +44,14 @@ public class ExpenseEntryMapper
 
     public static string MapToRawString(ExpenseEntry entry)
     {
-        return $"{entry.Id};{entry.Description};{entry.Amount};{entry.Created};{entry.Updated}";
+        string test = DateTime.Now.ToString("o");
+        Assert.IsNumberPositive(entry.Id);
+        Assert.IsStringNullOrEmpty(entry.Description);
+        Assert.IsAmountInRange(entry.Amount);
+        Assert.IsDateTimeValid(entry.Created);
+        Assert.IsDateTimeValid(entry.Updated);
+
+
+        return $"{entry.Id};{entry.Description};{entry.Amount};{entry.Created.ToDatabaseString()};{entry.Updated.ToDatabaseString()}";
     }
 }

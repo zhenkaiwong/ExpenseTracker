@@ -1,3 +1,4 @@
+using ExpenseTracker.Library.Extensions;
 using ExpenseTracker.Library.Models;
 using ExpenseTracker.Library.Services;
 using NUnit.Framework;
@@ -37,7 +38,7 @@ public class DatabaseServiceTests
 
         DatabaseService testInstance = new();
         DateTime now = DateTime.Now;
-        string expected = $"1;Lunch;20;{now};{now}";
+        string expected = $"1;Lunch;20;{now.ToDatabaseString()};{now.ToDatabaseString()}";
 
         // action
         testInstance.Insert(expenseEntry);

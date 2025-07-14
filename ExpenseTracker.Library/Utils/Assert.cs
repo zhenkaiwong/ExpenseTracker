@@ -61,4 +61,12 @@ public class Assert
             throw new ArgumentException(error);
         }
     }
+
+    public static void IsDateTimeValid(DateTime? value, string? errorMessage = "Invalid date time value")
+    {
+        if (value is null || value == DateTime.MinValue || value == DateTime.MaxValue)
+        {
+            throw new ArgumentException(errorMessage);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 using ExpenseTracker.Library.Mappers;
+using ExpenseTracker.Library.Models;
 
 namespace ExpenseTracker.Tests.Mappers;
 
@@ -7,10 +8,9 @@ public class ExpenseEntryMapperTests
     [Theory]
     [InlineData("")]
     [InlineData("1,2,3")]
-    [InlineData("-1;Lunch;20;14/07/2025 3:43:55 PM;14/07/2025 3:43:55 PM")]
-    [InlineData("0;;20;14/07/2025 3:43:55 PM;14/07/2025 3:43:55 PM")]
-    [InlineData("0;Lunch;-1;14/07/2025 3:43:55 PM;14/07/2025 3:43:55 PM")]
-    [InlineData("0;Lunch;10000;14/07/2025 3:43:55 PM;14/07/2025 3:43:55 PM")]
+    [InlineData("-1;Lunch;20;2025-07-14T19:18:37.7478120+08:00;2025-07-14T19:18:37.7478120+08:00")]
+    [InlineData("1;;20;2025-07-14T19:18:37.7478120+08:00;2025-07-14T19:18:37.7478120+08:00")]
+    [InlineData("1;Lunch;-1;2025-07-14T19:18:37.7478120+08:00;2025-07-14T19:18:37.7478120+08:00")]
     public void MapToExpenseEntry_InvalidData_ThrowsArgumentException(string testData)
     {
         Assert.Throws<ArgumentException>(() =>
@@ -20,8 +20,8 @@ public class ExpenseEntryMapperTests
     }
 
     [Theory]
-    [InlineData("0;Lunch;20;32/07/2025 3:43:55 PM;14/07/2025 3:43:55 PM")]
-    [InlineData("0;Lunch;20;14/07/2025 3:43:55 PM;32/07/2025 3:43:55 PM")]
+    [InlineData("1;Lunch;20;2025-07-33T19:18:37.7478120+08:00;2025-07-14T19:18:37.7478120+08:00")]
+    [InlineData("1;Lunch;20;2025-07-14T19:18:37.7478120+08:00;2025-07-33T19:18:37.7478120+08:00")]
     public void MapToExpenseEntry_InvalidDate_ThrowsArgumentException(string testData)
     {
         Assert.Throws<FormatException>(() =>
@@ -30,9 +30,63 @@ public class ExpenseEntryMapperTests
         });
     }
 
-    [Theory]
-    public void MapToRawString_InvalidData_ThrowsArgumentException(int id, string description, int amount, DateTime created, DateTime updated)
+    public static IEnumerable<object[]> GetInvalidExpenseEntries()
     {
+        return new List<object[]>()
+        {
+            new object[] {
+                new ExpenseEntry() {
+                    Id = -1,
+                    Amount = 1,
+                    Description = "Lunch",
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now
+                }
+            },
+            new object[] {
+                new ExpenseEntry() {
+                    Id = 1,
+                    Amount = -1,
+                    Description = "Lunch",
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now
+                }
+            },
+            new object[] {
+                new ExpenseEntry() {
+                    Id = 1,
+                    Amount = 1,
+                    Description = string.Empty,
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now
+                }
+            },
+            new object[] {
+                new ExpenseEntry() {
+                    Id = 1,
+                    Amount = 1,
+                    Description = "Lunch",
+                    Created = DateTime.Now,
+                }
+            },
+            new object[] {
+                new ExpenseEntry() {
+                    Id = 1,
+                    Amount = 1,
+                    Description = "Lunch",
+                    Updated = DateTime.Now
+                }
+            },
+        };
+    }
 
+    [Theory]
+    [MemberData(nameof(GetInvalidExpenseEntries))]
+    public void MapToRawString_InvalidData_ThrowsArgumentException(ExpenseEntry entry)
+    {
+        Assert.Throws<ArgumentException>(() =>
+        {
+            ExpenseEntryMapper.MapToRawString(entry);
+        });
     }
 }
