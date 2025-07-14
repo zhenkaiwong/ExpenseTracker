@@ -9,6 +9,9 @@ public class AddCommandTests
     public void Execute_InvalidData_ThrowsArgumentException()
     {
         UserInput testUserInput = new UserInput();
+        testUserInput.Amount = 0;
+        testUserInput.Description = string.Empty;
+
         BaseCommand testInstance = new AddCommand();
 
         Assert.Throws<ArgumentException>(() =>

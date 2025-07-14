@@ -29,10 +29,15 @@ public class DatabaseServiceTests
     public void Insert_ValidData_ShouldInsertEntryIntoLastPosition()
     {
         // arrange
-        ExpenseEntry expenseEntry = new("Lunch", 20);
+        ExpenseEntry expenseEntry = new()
+        {
+            Description = "Lunch",
+            Amount = 20
+        };
+
         DatabaseService testInstance = new();
         DateTime now = DateTime.Now;
-        string expected = $"0;Lunch;20;{now};{now}";
+        string expected = $"1;Lunch;20;{now};{now}";
 
         // action
         testInstance.Insert(expenseEntry);

@@ -7,9 +7,17 @@ public class Assert
 {
     public static void IsAmountInRange(int value)
     {
-        if (value <= 0)
+        if (value <= 0 || value > 9999)
         {
-            throw new ArgumentException("Amount shouldn't be 0 or lower");
+            throw new ArgumentException("Amount shouldn't be 0 or lower, higher than 9999");
+        }
+    }
+
+    public static void IsNumberPositive(int value)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentException($"Value \"{value}\" is not a positive number since it is lower than 0");
         }
     }
 

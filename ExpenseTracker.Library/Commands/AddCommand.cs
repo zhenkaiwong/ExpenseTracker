@@ -1,4 +1,5 @@
 using ExpenseTracker.Library.Models;
+using ExpenseTracker.Library.Services;
 using ExpenseTracker.Library.Utils;
 
 namespace ExpenseTracker.Library.Commands;
@@ -23,9 +24,13 @@ public class AddCommand : BaseCommand
 
     protected override void DoExecute(UserInput userInput)
     {
-        string? description = userInput.Description;
-        int amount = userInput.Amount;
+        DatabaseService dbService = new DatabaseService();
+        ExpenseEntry entry = new()
+        {
+            Description = userInput.Description,
+            Amount = userInput.Amount
+        };
 
-        Log.Info($"Executed add command.\nDescription:\t{description ?? "Invalid input"}\nAmount:\t{amount}");
+        dbService.Insert(entry);
     }
 }
