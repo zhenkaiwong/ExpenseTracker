@@ -13,11 +13,11 @@ public class Assert
         }
     }
 
-    public static void IsStringNull(string? value)
+    public static void IsStringNullOrEmpty(string? value)
     {
-        if (value is null)
+        if (string.IsNullOrEmpty(value))
         {
-            throw new ArgumentException("String shouldn't be null");
+            throw new ArgumentException(value);
         }
     }
 

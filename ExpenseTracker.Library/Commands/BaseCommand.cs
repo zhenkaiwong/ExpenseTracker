@@ -7,10 +7,9 @@ public abstract class BaseCommand
 {
     public void Execute(UserInput userInput)
     {
-        if (CanExecute(userInput))
+        if (!CanExecute(userInput))
         {
-            Log.Error($"{this} cannot handle the input");
-            return;
+            throw new ArgumentException($"{this} cannot handle the input");
         }
         DoExecute(userInput);
     }

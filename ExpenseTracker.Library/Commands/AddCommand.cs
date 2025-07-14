@@ -10,7 +10,7 @@ public class AddCommand : BaseCommand
         try
         {
             Assert.IsAmountInRange(userInput.Amount);
-            Assert.IsStringNull(userInput.Description);
+            Assert.IsStringNullOrEmpty(userInput.Description);
 
             return true;
         }
