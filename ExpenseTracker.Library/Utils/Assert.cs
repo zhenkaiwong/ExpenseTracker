@@ -44,4 +44,13 @@ public class Assert
                 throw new ArgumentException($"Invalid parameter: ${parameter}");
         }
     }
+
+    public static void IsNull(object value, string? errorMessage)
+    {
+        if (value is null)
+        {
+            string error = errorMessage is null ? "Null vavalue detected" : errorMessage;
+            throw new ArgumentException(error);
+        }
+    }
 }
