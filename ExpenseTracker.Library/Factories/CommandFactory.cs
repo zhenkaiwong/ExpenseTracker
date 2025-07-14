@@ -10,6 +10,7 @@ public class CommandFactory : IFactory<string, BaseCommand>
         _commandEntries = new();
 
         _commandEntries.Add(Constants.Commands.ADD_COMMAND, new AddCommand());
+        _commandEntries.Add(Constants.Commands.LIST_COMMAND, new ListCommand());
     }
 
     public bool ContainsEntry(string value)

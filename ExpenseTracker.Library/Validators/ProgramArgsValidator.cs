@@ -6,6 +6,10 @@ public class ProgramArgsValidator : BaseValidator<string[]>
 {
     protected override ValidationResult DoValidate(string[] args)
     {
+        if (args[0] == Constants.Commands.LIST_COMMAND)
+        {
+            return new ValidationResult(true);
+        }
         // args length must be odd number and larger than 1
         if (args.Length <= 1)
         {
