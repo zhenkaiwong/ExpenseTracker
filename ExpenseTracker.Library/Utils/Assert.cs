@@ -7,9 +7,22 @@ public class Assert
 {
     public static void IsAmountInRange(int value)
     {
-        if (value <= 0 || value > 9999)
+        IsNumberInRange(value, 1, 9999, "Amount shouldn't be lower than 0 or higher than 9999");
+    }
+
+    public static void IsIdValid(int id)
+    {
+        if (id < 1)
         {
-            throw new ArgumentException("Amount shouldn't be 0 or lower, higher than 9999");
+            throw new ArgumentOutOfRangeException($"Invalid ID. Id should not be lower than 1");
+        }
+    }
+
+    public static void IsNumberInRange(int value, int start, int end, string error = "")
+    {
+        if (value < start || value > end)
+        {
+            throw new ArgumentException(error);
         }
     }
 
