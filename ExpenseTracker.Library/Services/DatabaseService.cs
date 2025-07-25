@@ -36,9 +36,20 @@ public class DatabaseService
 
         string data = ExpenseEntryMapper.MapToRawString(entry);
 
-        using (StreamWriter sw = File.AppendText(FILE_NAME))
+        File.AppendAllText(FILE_NAME, data + Environment.NewLine);
+    }
+
+    public void Delete(ExpenseEntry entry)
+    {
+        IEnumerable<ExpenseEntry> entries = GetAll();
+        if (!entries.Any(dbEntry => dbEntry.Id == entry.Id))
         {
-            sw.WriteLine(data);
+            throw new KeyNotFoundException($"Unable to find entry with id {entry.Id}");
         }
+
+        IEnumerable<ExpenseEntry> updatedEntries = entries.Where(dbEntry => dbEntry.Id != entry.Id);
+        IEnumerable<string> data = ExpenseEntryMapper.MapToRawStringList(updatedEntries);
+
+        File.WriteAllLines(FILE_NAME, data);
     }
 }

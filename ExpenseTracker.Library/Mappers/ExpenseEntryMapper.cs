@@ -54,4 +54,9 @@ public class ExpenseEntryMapper
 
         return $"{entry.Id};{entry.Description};{entry.Amount};{entry.Created.ToDatabaseString()};{entry.Updated.ToDatabaseString()}";
     }
+
+    public static IEnumerable<string> MapToRawStringList(IEnumerable<ExpenseEntry> entries)
+    {
+        return entries.Select(entry => MapToRawString(entry));
+    }
 }

@@ -48,4 +48,33 @@ public class DatabaseServiceTests
         string actual = fileContent.Last();
         Assert.That(actual, Is.EqualTo(expected));
     }
+
+    [Test]
+    public void Delete_ValidData_ShouldRemoveEntry()
+    {
+        // arrange
+        ExpenseEntry expenseEntry1 = new()
+        {
+            Description = "test 1",
+            Amount = 1
+        };
+
+        ExpenseEntry expenseEntry2 = new()
+        {
+            Description = "test 2",
+            Amount = 1
+        };
+
+        DatabaseService testInstance = new();
+        testInstance.Insert(expenseEntry1);
+        testInstance.Insert(expenseEntry2);
+
+        // action
+        testInstance.Delete(expenseEntry2);
+
+        // assert
+        IEnumerable<ExpenseEntry> actualEntries = testInstance.GetAll();
+        Assert.That(actualEntries.Count(), Is.EqualTo(1));
+        Assert.True(!actualEntries.Any(actualEntry => actualEntry.Id == expenseEntry2.Id));
+    }
 }
