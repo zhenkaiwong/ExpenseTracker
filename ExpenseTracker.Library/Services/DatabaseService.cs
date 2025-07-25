@@ -1,5 +1,6 @@
 using ExpenseTracker.Library.Mappers;
 using ExpenseTracker.Library.Models;
+using ExpenseTracker.Library.Utils;
 
 namespace ExpenseTracker.Library.Services;
 
@@ -37,6 +38,60 @@ public class DatabaseService
         string data = ExpenseEntryMapper.MapToRawString(entry);
 
         File.AppendAllText(FILE_NAME, data + Environment.NewLine);
+    }
+
+    private ExpenseEntry? FindByIdFromEntries(IEnumerable<ExpenseEntry> entries, int id)
+    {
+        try
+        {
+            return entries.First(entry => entry.Id == id);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private T TryUpdate<T>(Action<T> assertAction, T currentValue, T newValue)
+    {
+        try
+        {
+            assertAction(newValue);
+            return newValue;
+        }
+        catch
+        {
+            return currentValue;
+        }
+    }
+
+    public void Update(ExpenseEntry entry)
+    {
+        IEnumerable<ExpenseEntry> dbEntries = GetAll();
+        ExpenseEntry? targetDbEntry = FindByIdFromEntries(dbEntries, entry.Id);
+
+        if (targetDbEntry is null)
+        {
+            throw new ArgumentException($"Unable to find expense with id: {entry.Id}");
+        }
+
+        targetDbEntry.Description = TryUpdate(Assert.IsStringNullOrEmpty, targetDbEntry.Description ?? "", entry.Description ?? "");
+        targetDbEntry.Amount = TryUpdate(Assert.IsAmountInRange, targetDbEntry.Amount, entry.Amount);
+        targetDbEntry.Updated = DateTime.Now;
+
+        IEnumerable<ExpenseEntry> updatedEntries = dbEntries.Select(dbEntry =>
+        {
+            if (dbEntry.Id != targetDbEntry.Id)
+            {
+                return dbEntry;
+            }
+
+            return targetDbEntry;
+        });
+
+        IEnumerable<string> data = ExpenseEntryMapper.MapToRawStringList(updatedEntries);
+        File.WriteAllLines(FILE_NAME, data);
+
     }
 
     public void Delete(ExpenseEntry entry)

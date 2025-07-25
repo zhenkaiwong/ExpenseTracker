@@ -13,6 +13,7 @@ public class CommandFactory : IFactory<string, BaseCommand>
         _commandEntries.Add(Constants.Commands.LIST_COMMAND, new ListCommand());
         _commandEntries.Add(Constants.Commands.SUMMARY_COMMAND, new SummaryCommand());
         _commandEntries.Add(Constants.Commands.DELETE_COMMAND, new DeleteCommand());
+        _commandEntries.Add(Constants.Commands.UPDATE_COMMAND, new UpdateCommand());
     }
 
     public bool ContainsEntry(string value)
