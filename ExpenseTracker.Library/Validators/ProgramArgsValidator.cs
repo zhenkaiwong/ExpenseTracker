@@ -6,10 +6,11 @@ public class ProgramArgsValidator : BaseValidator<string[]>
 {
     protected override ValidationResult DoValidate(string[] args)
     {
-        if (args[0] == Constants.Commands.LIST_COMMAND)
+        if (ValidForParameterlessCommand(args))
         {
             return new ValidationResult(true);
         }
+
         // args length must be odd number and larger than 1
         if (args.Length <= 1)
         {
@@ -22,5 +23,24 @@ public class ProgramArgsValidator : BaseValidator<string[]>
         }
 
         return new ValidationResult(true);
+    }
+
+    private bool ValidForParameterlessCommand(string[] args)
+    {
+        if (args.Length > 1)
+        {
+            return false;
+        }
+
+        string command = args[0];
+
+        switch (command)
+        {
+            case Constants.Commands.LIST_COMMAND:
+            case Constants.Commands.SUMMARY_COMMAND:
+                return true;
+            default:
+                return false;
+        }
     }
 }
