@@ -40,7 +40,7 @@ public class DatabaseService
         File.AppendAllText(FILE_NAME, data + Environment.NewLine);
     }
 
-    private ExpenseEntry? FindByIdFromEntries(IEnumerable<ExpenseEntry> entries, int id)
+    private ExpenseEntry? FindByIdFromEntries(List<ExpenseEntry> entries, int id)
     {
         try
         {
@@ -67,7 +67,7 @@ public class DatabaseService
 
     public void Update(ExpenseEntry entry)
     {
-        IEnumerable<ExpenseEntry> dbEntries = GetAll();
+        List<ExpenseEntry> dbEntries = GetAll().ToList();
         ExpenseEntry? targetDbEntry = FindByIdFromEntries(dbEntries, entry.Id);
 
         if (targetDbEntry is null)
@@ -79,17 +79,7 @@ public class DatabaseService
         targetDbEntry.Amount = TryUpdate(Assert.IsAmountInRange, targetDbEntry.Amount, entry.Amount);
         targetDbEntry.Updated = DateTime.Now;
 
-        IEnumerable<ExpenseEntry> updatedEntries = dbEntries.Select(dbEntry =>
-        {
-            if (dbEntry.Id != targetDbEntry.Id)
-            {
-                return dbEntry;
-            }
-
-            return targetDbEntry;
-        });
-
-        IEnumerable<string> data = ExpenseEntryMapper.MapToRawStringList(updatedEntries);
+        IEnumerable<string> data = ExpenseEntryMapper.MapToRawStringList(dbEntries);
         File.WriteAllLines(FILE_NAME, data);
 
     }
