@@ -13,6 +13,6 @@ public abstract class BaseCommand
         }
         DoExecute(userInput);
     }
-    protected abstract bool CanExecute(UserInput userInput);
+    public abstract bool CanExecute(UserInput userInput);
     protected abstract void DoExecute(UserInput userInput);
 }

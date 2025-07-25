@@ -7,7 +7,7 @@ namespace ExpenseTracker.Library.Commands;
 
 public class ListCommand : BaseCommand
 {
-    protected override bool CanExecute(UserInput userInput)
+    public override bool CanExecute(UserInput userInput)
     {
         EmptyUserInputValidator validator = new();
         ValidationResult result = validator.Validate(userInput);

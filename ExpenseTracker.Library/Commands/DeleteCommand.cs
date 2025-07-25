@@ -6,7 +6,7 @@ namespace ExpenseTracker.Library.Commands;
 
 public class DeleteCommand : BaseCommand
 {
-    protected override bool CanExecute(UserInput userInput)
+    public override bool CanExecute(UserInput userInput)
     {
         try
         {
