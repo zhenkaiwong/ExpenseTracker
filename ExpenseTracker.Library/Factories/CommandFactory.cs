@@ -11,6 +11,7 @@ public class CommandFactory : IFactory<string, BaseCommand>
 
         _commandEntries.Add(Constants.Commands.ADD_COMMAND, new AddCommand());
         _commandEntries.Add(Constants.Commands.LIST_COMMAND, new ListCommand());
+        _commandEntries.Add(Constants.Commands.SUMMARY_COMMAND, new SummaryCommand());
     }
 
     public bool ContainsEntry(string value)
@@ -26,5 +27,19 @@ public class CommandFactory : IFactory<string, BaseCommand>
         }
 
         return _commandEntries[key];
+    }
+
+    public bool TryCreateInstance(string key, out BaseCommand? command)
+    {
+        try
+        {
+            command = CreateInstance(key);
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            command = null;
+            return false;
+        }
     }
 }
