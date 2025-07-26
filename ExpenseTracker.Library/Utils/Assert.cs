@@ -18,7 +18,7 @@ public class Assert
         }
     }
 
-    public static void IsNumberInRange(int value, int start, int end, string error = "")
+    public static void IsNumberInRange(int value, int start, int end, string error = "Value doesn't fall in range")
     {
         if (value < start || value > end)
         {

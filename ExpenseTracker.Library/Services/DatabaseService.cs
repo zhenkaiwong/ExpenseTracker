@@ -28,6 +28,12 @@ public class DatabaseService
         return ExpenseEntryMapper.MapToExpenseEntries(records);
     }
 
+    public IEnumerable<ExpenseEntry> GetAllByMonth(int month)
+    {
+        Assert.IsNumberInRange(month, 1, 12, $"Invalid month value: {month}");
+        return GetAll().Where(entry => entry.Created.Month == month);
+    }
+
     public void Insert(ExpenseEntry entry)
     {
         DateTime now = DateTime.Now;
